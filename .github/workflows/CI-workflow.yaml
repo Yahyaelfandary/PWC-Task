@@ -1,0 +1,30 @@
+name: Continous Integration Workflow
+
+on:
+  push:
+    paths:
+      - 'app/**'
+      - 'Dockerfile'
+      - 'run.py'
+      - 'requirements.txt'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build Docker image
+        run: docker build -t yahyaelfandary/build-new .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push yahyaelfandary/build-new
