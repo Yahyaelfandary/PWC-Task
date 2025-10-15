@@ -1,0 +1,50 @@
+name: Continuous Deployment Workflow
+
+on:
+  push:
+    paths:
+      - 'Kubernetes/**'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Continuous Integration Workflow"]
+    types:
+      - completed
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - name: Set AKS credentials
+        uses: azure/aks-set-context@v4
+        with:
+          cluster-name: "pwc-aks-cluster"
+          resource-group: "pwc-aks-rg"
+          azure-creds: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+      - name: deploy to AKS
+        uses: azure/k8s-deploy@v3
+        with:
+          namespace: default
+          manifests: |
+            ./Kubernetes/deployment.yaml
+            ./Kubernetes/service.yaml
+          images: |
+            yahyaelfandary/build-new:latest
+
+      
