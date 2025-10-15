@@ -6,6 +6,10 @@ on:
       - 'Terraform-Infra/**'
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   Terraform:
     runs-on: ubuntu-latest
