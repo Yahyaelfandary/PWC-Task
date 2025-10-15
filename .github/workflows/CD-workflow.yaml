@@ -34,7 +34,7 @@ jobs:
         uses: azure/aks-set-context@v4
         with:
           cluster-name: "pwc-aks-cluster"
-          resource-group: "pwc-aks-rg"
+          resource-group: "pwc-app-rg"
           azure-creds: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: deploy to AKS
