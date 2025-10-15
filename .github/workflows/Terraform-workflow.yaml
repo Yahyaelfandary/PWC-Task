@@ -20,9 +20,9 @@ jobs:
           terraform_version: 1.13.3
 
       - name: Azure Login
-        uses: ${{ secrets.AZURE_USERNAME_CREDENTIALS}}
+        uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_PASSWORD_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Terraform Init
         run: terraform init
