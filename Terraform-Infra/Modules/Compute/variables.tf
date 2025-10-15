@@ -4,7 +4,7 @@ variable "pwc-aks_name" {
   
 }
 
-variable "location" {
+variable "resource_group_location" {
   description = "The Azure region where the AKS cluster will be deployed."
   type        = string
   

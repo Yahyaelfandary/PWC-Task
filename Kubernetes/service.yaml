@@ -4,7 +4,7 @@ metadata:
   name: pwc-app-service
 spec:
   selector:
-    app: pwc-app-deployment
+    app: python-app-deployment
   ports:
     - protocol: TCP
       port: 80

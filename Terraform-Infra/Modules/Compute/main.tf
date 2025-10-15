@@ -1,6 +1,6 @@
 resource "azurerm_kubernetes_cluster" "pwc-aks" {
   name                = var.pwc-aks_name
-  location            = var.location
+  location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
 
